@@ -1,0 +1,9 @@
+-f best
+--no-mark-watched
+--cookies=$HOME/.config/youtube-dl/cookies
+--cache-dir=$HOME/.config/youtube-dl/cache
+--write-sub
+--sub-lang en
+--no-mtime
+--ignore-errors
+--output="/storage/emulated/0/Movies/MMD/%(extractor_key)s/%(uploader)s/[%(upload_date)s] %(title)s [%(id)s].%(ext)s"

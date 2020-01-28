@@ -1,0 +1,93 @@
+#!/bin/bash
+# JohnKyonSmith 2020-01-28
+# Version: Iwachan-v2.0-android
+
+if [ -z "$1" ]; then
+	URL=$(termux-clipboard-get)
+else 
+	URL="$1"
+	BATCH="$2"
+fi
+
+external_links(){
+	echo "Youtube/External link detected!"
+	youtube-dl --config-location $HOME/.config/youtube-dl/iwachan-hq "$URL"
+}
+
+iwara_links(){
+	echo "Iwara link detected!"
+	youtube-dl --config-location $HOME/.config/youtube-dl/iwachan "$URL"
+}
+
+batch_file(){
+	echo "Batch file detected!"
+	grep iwara.tv "$URL" > /dev/null
+	if [ $? == "0" ]; then
+		grep iwara.tv "$URL" > iwara-links.tmp
+		grep -v iwara.tv "$URL" > external-links.tmp
+		youtube-dl --config-location $HOME/.config/youtube-dl/iwachan -a "iwara-links.tmp"
+		if [ -s external-links.tmp ]; then
+			youtube-dl --config-location $HOME/.config/youtube-dl/iwachan-hq -a "external-links.tmp"
+		else
+			:
+		fi
+	else
+		youtube-dl --config-location $HOME/.config/youtube-dl/iwachan-hq -a "$URL"
+	fi
+	
+	if [ -f iwara-links.tmp ]; then
+		rm iwara-links.tmp
+		rm external-links.tmp
+	else
+		:
+	fi
+}
+
+clean_batch() {
+	if [ -f "$BATCH" ]; then
+		FILE="${BATCH%.*}"	# Get filename
+		FILE_TMP="${FILE}.tmp"
+		echo "Cleaning batch file!"
+		sed -i.bak "/iwara.tv/ s:?.*::" ${BATCH}	# Remove anything after the ? in iwara links to not trip youtube-dl extractor
+		grep iwara.tv ${BATCH} > ${FILE_TMP}
+		sed -i "s:.*videos/::g" ${FILE_TMP}		# Clean links to search for files with this pattern
+		sort -u -o ${FILE_TMP} ${FILE_TMP}
+		cat ${FILE_TMP} | while IFS= read -r LINE; do
+			find . \( -name "*$LINE*" ! -name "*.part" \) | grep -q "."	# Search for pattern and remove links to existing files
+				if [ $? == 0 ]; then
+					sed -i "/${LINE}/d" $BATCH
+				else
+					:
+				fi
+		done
+		rm ${FILE_TMP}
+		grep youtube.com ${BATCH} > ${FILE_TMP}
+		if [ -s ${FILE_TMP} ]; then
+			sed -i "s:.*watch?v=::g" ${FILE_TMP}		# Clean links to search for files with this pattern
+			sort -u -o ${FILE_TMP} ${FILE_TMP}
+			cat ${FILE_TMP} | while IFS= read -r LINE; do
+				find . \( -name "*$LINE*" ! -name "*.part" \) | grep -q "."	# Search for pattern and remove links to existing files
+					if [ $? == 0 ]; then
+						sed -i "/${LINE}/d" $BATCH
+					else
+						:
+					fi
+			done
+		else
+			:
+		fi
+		rm ${FILE_TMP}
+	else
+		echo "ERROR: No batch file detected!"
+	fi
+}
+
+if [[ "$URL" =~ "iwara.tv" ]]; then
+	iwara_links
+elif [ -f "$URL" ]; then
+	batch_file
+elif [ "$URL" == "CLEAN" ]; then
+	clean_batch
+else
+	external_links
+fi
