@@ -20,7 +20,7 @@ Helper script to use __youtube-dl__ as __iwachan__. It detects if the URL is fro
  - everything else should be on an updated Termux install
 
 ## Installation
-You must install all the files in their respective locations. Adjust the paths if you need to. Install __python, ffmpeg, git, and termux-api__ from your package manager. Install __youtube-dl__ from __pip__. Make the script __executable__ and place it in either your __$HOME/bin__. These commands will install the necessary programs, clone this repo, make a backup of the original iwara.py extractor, make symlinks to where all the files need to go, and symlink the script to your $HOME/bin directory.
+You must install all the files in their respective locations. Adjust the paths if you need to. Install __python, ffmpeg, git, and termux-api__ from your package manager. Install __youtube-dl__ from __pip__. Make the script __executable__ and place it in your __$HOME/bin__. These commands will install the necessary programs, clone this repo, make a backup of the original iwara.py extractor, make symlinks to where all the files need to go, and symlink the script to your $HOME/bin directory.
 
 ### Setting up the environment
 __Install all the apps first from either F-Droid or the Play Store, but DO NOT mix and match! You must grant the Termux App storage permissions after installing it!__
