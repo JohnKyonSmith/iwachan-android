@@ -1,6 +1,6 @@
 #!/bin/bash
-# JohnKyonSmith 2020-01-28
-# Version: Iwachan-v2.0-android
+# JohnKyonSmith 2020-01-31
+# Version: Iwachan-v2.1-android
 
 if [ -z "$1" ]; then
 	URL=$(termux-clipboard-get)
@@ -16,6 +16,7 @@ external_links(){
 
 iwara_links(){
 	echo "Iwara link detected!"
+	URL="$(termux-clipboard-get | sed -n 's:?.*::g;p')"
 	youtube-dl --config-location $HOME/.config/youtube-dl/iwachan "$URL"
 }
 

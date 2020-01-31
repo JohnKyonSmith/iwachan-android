@@ -2,7 +2,7 @@
 Script to download videos from Iwara/External sites using youtube-dl.
 This is a complete redo of the original iwachan script for android.
 
-#### Current Version: Iwachan-v2.0-android
+#### Current Version: Iwachan-v2.1-android
 
 ## Description:
 Helper script to use __youtube-dl__ as __iwachan__. It detects if the URL is from Iwara, an external site (Ex. Youtube), or a batch file. If it detects a batch file, it separates the links to use different youtube-dl settings. It will get the __best source__ from Iwara and __1080p60fps or lower__ from external sites. You need to manually edit these settings if you want other video/audio resolutions/formats (_look into the __youtube-dl -F__ option_). It uses two external files (__iwachan__ and __iwachan-hq__) that have the custom settings in the $HOME/.config/youtube-dl directory. The __iwachan file__ has the settings for __iwara.tv__ while __iwachan-hq__ has the settings for __external sites__. Lastly, this script uses the __updated extractor__.
@@ -151,7 +151,8 @@ https://iwara.tv/videos/URL_ID
 ```
 
 ## Errors:
-All iwara.tv links must be plain links without anything after the URL_ID or the extractor will throw an error and either refuse to download, download lower quality videos, or not properly put the videos in their directories.
+### FIXED clipboard sanitation for Iwara links in v2.1
+All iwara.tv links must be plain text links without anything after the URL\_ID or the extractor will throw an error and either refuse to download, download lower quality videos, or not properly put the videos in their directories.
 
 __VALID__ link with expected output
 ```
@@ -166,6 +167,7 @@ https://ecchi.iwara.tv/videos/URL_ID?language=en
 Within Termux, use the pinch gesture to zoom out until all the information stays within one line. This should stop the terminal from filling the entire screen with gibberish.
 
 ## Solutions:
+### FIXED clipboard sanitation for Iwara links in v2.1
 Either browse the site in your preferred language and __manually remove the extra information__, browse the site __in the native japanese language__, or put all the links in a batch file and run the __clean\_batch function__ to clean the links automatically. _Information about the __clean\_batch__ function and how to use it is below_.
 
 ## Notes: Not Tested On Termux
@@ -185,7 +187,7 @@ iwachan batch.txt
  - Fix any bugs that crop up
  - Try to make the script more efficient
  - Deal with third-party hosted videos within Iwara
- - Sanitize Iwara links to remove anything after the URL\_ID without the clean\_batch function
+ - Sanitize Iwara links to remove anything after the URL\_ID from the clipboard (batch files still need to use the CLEAN\_BATCH function)
 
 ## Fix me:
  - Private videos
