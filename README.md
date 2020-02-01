@@ -140,7 +140,12 @@ iwachan batch.txt   (Uses a plain text batch file)
 ```
 
 ## Batch Files:
-The batch file is a plain text file with one link per line
+The batch file is a plain text file with one link per line. Also, try to put the batch file in the root of the downloaded files folder. This will make the CLEAN\_BATCH function actually work, instead of just sanitizing the iwara links. The batch file would go in the MMD folder in the following example. This allows for the CLEAN\_BATCH function to search for and delete links in the batch file that you've already downloaded (excluding .part files).
+
+
+```
+$HOME/Videos/MMD/SITE/USER/...
+```
 
 ```
 cat batch.txt
@@ -170,7 +175,7 @@ Within Termux, use the pinch gesture to zoom out until all the information stays
 ### FIXED clipboard sanitation for Iwara links in v2.1
 Either browse the site in your preferred language and __manually remove the extra information__, browse the site __in the native japanese language__, or put all the links in a batch file and run the __clean\_batch function__ to clean the links automatically. _Information about the __clean\_batch__ function and how to use it is below_.
 
-## Notes: Not Tested On Termux
+## Notes: TESTED on Termux, should be working
 
 __ONLY FOR iwara.tv/youtube.com links, NOT shortened links.__
 The clean\_batch function will clean the batch file you input. It'll look for files (excluding .part files) that have a matching URL\_ID and delete the links from the batch file. It'll also remove anything after the first ? (question mark) in iwara links so as to not confuse the youtube-dl extractor. __The input to run the function _must_ have CLEAN then the batch file.__
@@ -183,11 +188,9 @@ iwachan batch.txt
 ```
 
 ## To do:
- - Test the clean\_batch function in Termux
  - Fix any bugs that crop up
  - Try to make the script more efficient
  - Deal with third-party hosted videos within Iwara
- - Sanitize Iwara links to remove anything after the URL\_ID from the clipboard (batch files still need to use the CLEAN\_BATCH function)
 
 ## Fix me:
  - Private videos
