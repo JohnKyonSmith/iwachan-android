@@ -1,3 +1,4 @@
+# DEPRECATED: Everything the script used to do has been available with yt-dlp options for some time now.
 # Iwachan for Android
 Script to download videos from Iwara/External sites using youtube-dl.
 This is a complete redo of the original iwachan script for android.
